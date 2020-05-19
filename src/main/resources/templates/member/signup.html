@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+    .fieldError {
+        border-color: #bd2130;
+    }
+</style>
+<body>
+<form role="form" action="/member/signup" th:object="${memberSignUpForm}" method="post" class="form-signin">
+    <div class="text-center mb-4">
+        <img class="mb-4" src="/image/app/book.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">회원가입</h1>
+    </div>
+
+    <div class="form-label-group">
+        <input type="text" th:field="*{uId}" th:class="${#fields.hasErrors('uId')}? 'form-control fieldError' : 'form-control'" class="form-control" placeholder="아이디 입력해주세요.">
+        <p th:if="${#fields.hasErrors('uId')}" th:errors="*{uId}">Incorrect date</p>
+        <label th:for="uId">아이디</label>
+        <span id="uId_msg" ></span>
+    </div>
+    <div class="form-label-group">
+        <input type="text" th:field="*{email}" th:class="${#fields.hasErrors('email')}? 'form-control fieldError' : 'form-control'" class="form-control" placeholder="이메일 입력해주세요.">
+        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Incorrect date</p>
+        <label th:for="email">이메일</label>
+        <span id="email_msg" ></span>
+    </div>
+    <div class="form-label-group">
+        <input type="password" th:field="*{password}" th:class="${#fields.hasErrors('password')}? 'form-control fieldError' : 'form-control'" class="form-control" placeholder="비밀번호 입력해주세요.">
+        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Incorrect date</p>
+        <label th:for="pw">비밀번호</label>
+        <span id="pw_msg" ></span>
+    </div>
+    <div class="form-label-group">
+        <input type="password" th:field="*{passwordCheck}" th:class="${#fields.hasErrors('passwordCheck')}? 'form-control fieldError' : 'form-control'" class="form-control" placeholder="비밀번호 입력해주세요.">
+        <p th:if="${#fields.hasErrors('passwordCheck')}" th:errors="*{passwordCheck}">Incorrect date</p>
+        <label th:for="pwCheck">비밀번호 확인</label>
+        <span id="pwCheck_msg" ></span>
+    </div>
+    <button type="submit" id="btn-signup" class="btn btn-lg btn-primary btn-block">가입하기</button>
+    <a href="/user/login" role="button" class="btn btn-lg btn-secondary btn-block">취소</a>
+</form>
+</body>
+</html>
