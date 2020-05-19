@@ -6,6 +6,9 @@ import com.lim.poly.project2.domain.Role;
 import com.lim.poly.project2.web.dto.MemberSignUpForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,9 +59,12 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String uId) throws UsernameNotFoundException {
-        List<Member> byuId = memberRepository.findByuId(uId);
+        Optional<Member> oneByuId = memberRepository.findOneByuId(uId);
+        Member member = oneByuId.get();
 
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(member.getRole().getValue()));
 
-        return null;
+        return new User(member.getUId(), member.getPassword(), authorities);
     }
 }

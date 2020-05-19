@@ -1,8 +1,6 @@
 package com.lim.poly.project2.web;
 
-import com.lim.poly.project2.domain.Member;
 import com.lim.poly.project2.domain.MemberRepository;
-import com.lim.poly.project2.domain.Role;
 import com.lim.poly.project2.service.MemberService;
 import com.lim.poly.project2.web.dto.MemberSignUpForm;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +23,14 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
+    //회원가입 form으로 이동
     @GetMapping("/member/signup")
     public String signupForm(Model model) {
         model.addAttribute("memberSignUpForm", new MemberSignUpForm());
         return "member/signup";
     }
 
+    //백엔드 유효성 검사 회원가입 정보 등록
     @PostMapping("/member/signup")
     public String createMember(@Valid MemberSignUpForm memberSignUpForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -38,7 +38,7 @@ public class MemberController {
         }
         memberService.signUp(memberSignUpForm);
 
-        return "redirect:/";
+        return "redirect:/member/login";
     }
 
     //회원가입 유효성 검사 - 아이디
@@ -70,8 +70,10 @@ public class MemberController {
         }
     }
 
+    //로그인 form으로 이동
     @GetMapping("member/login")
     public String login() {
         return "member/login";
     }
+
 }
