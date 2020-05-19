@@ -1,6 +1,7 @@
 package com.lim.poly.project2.web;
 
 import com.lim.poly.project2.domain.Member;
+import com.lim.poly.project2.domain.MemberRepository;
 import com.lim.poly.project2.domain.Role;
 import com.lim.poly.project2.service.MemberService;
 import com.lim.poly.project2.web.dto.MemberSignUpForm;
@@ -11,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 
@@ -20,37 +23,55 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/member/signup")
     public String signupForm(Model model) {
-        log.info(this.getClass().getName() + ".signupForm start!");
         model.addAttribute("memberSignUpForm", new MemberSignUpForm());
         return "member/signup";
     }
 
     @PostMapping("/member/signup")
     public String createMember(@Valid MemberSignUpForm memberSignUpForm, BindingResult bindingResult) {
-        log.info(this.getClass().getName() + ".createMember start!");
-
         if (bindingResult.hasErrors()) {
             return "member/signup";
         }
-        Role role = null;
-        if (memberSignUpForm.getEmail().contains("admin@")) {
-            role = Role.ADMIN;
-        } else {
-            role = Role.MEMBER;
-        }
-
-        Member member = Member.builder()
-                .uId(memberSignUpForm.getUId())
-                .email(memberSignUpForm.getEmail())
-                .password(memberSignUpForm.getPassword())
-                .role(role)
-                .build();
-
-        memberService.signUp(member);
+        memberService.signUp(memberSignUpForm);
 
         return "redirect:/";
+    }
+
+    //회원가입 유효성 검사 - 아이디
+    @PostMapping("/user/signup/checkId")
+    public @ResponseBody
+    int checkId(@RequestBody String uId) {
+        log.info(this.getClass().getName() + ".checkId start!");
+
+        int count = memberRepository.countMemberByUId(uId);
+        log.info(this.getClass().getName() + ".checkId end!");
+        if (count == 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    //회원가입 유효성 검사 - 이메일
+    @PostMapping("/user/signup/checkEmail")
+    public @ResponseBody int checkEmail(@RequestBody String email) {
+        log.info(this.getClass().getName() + ".checkEmail start!");
+
+        int count = memberRepository.countMemberByEmail(email);
+        log.info(this.getClass().getName() + ".checkEmail end!");
+        if (count == 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    @GetMapping("member/login")
+    public String login() {
+        return "member/login";
     }
 }
