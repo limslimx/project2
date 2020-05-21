@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<form class="form-signin">
+    <div class="text-center mb-4" align="center">
+    <p align="center">
+        <span th:text="${session.userId}"></span>님 환영합니다.
+    </p>
+    <a href="/member/logout" type="button">로그아웃</a>
+    </div>
+    <div class="text-center mb-4">
+        <img class="mb-4" src="/image/app/book.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">책 검색하기</h1>
+    </div>
+
+    <div class="form-label-group" align="center">
+        <input type="text" id="search_info" value="">
+        <label for="search_info">검색어</label>
+    </div>
+
+    <button type="button" class="btn btn-lg btn-primary btn-block" id="btn-search">검색</button>
+    <hr/>
+
+    <div class="text-center mb-4" align="center">
+        <div id="book_info"></div>
+    </div>
+    <footer th:replace="fragments/footer :: footer" />
+</form>
+<script th:replace="fragments/js :: js" />
+</body>
+</html>

@@ -16,8 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -59,12 +57,23 @@ public class MemberService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String uId) throws UsernameNotFoundException {
-        Optional<Member> oneByuId = memberRepository.findOneByuId(uId);
-        Member member = oneByuId.get();
+        Member member = memberRepository.findOneByuId(uId);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(member.getRole().getValue()));
 
         return new User(member.getUId(), member.getPassword(), authorities);
+    }
+
+    public int countMemberByUId(String uId) {
+        return memberRepository.countMemberByUId(uId);
+    }
+
+    public int countMemberByEmail(String email) {
+        return memberRepository.countMemberByEmail(email);
+    }
+
+    public String findIdByEmail(String email) {
+        return memberRepository.findIdByEmail(email);
     }
 }

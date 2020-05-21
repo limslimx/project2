@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -42,12 +44,13 @@ public class MemberController {
     }
 
     //회원가입 유효성 검사 - 아이디
-    @PostMapping("/user/signup/checkId")
+    @PostMapping("/member/signup/checkId")
     public @ResponseBody
     int checkId(@RequestBody String uId) {
         log.info(this.getClass().getName() + ".checkId start!");
 
-        int count = memberRepository.countMemberByUId(uId);
+        int count = memberService.countMemberByUId(uId);
+
         log.info(this.getClass().getName() + ".checkId end!");
         if (count == 0) {
             return 1;
@@ -57,11 +60,13 @@ public class MemberController {
     }
 
     //회원가입 유효성 검사 - 이메일
-    @PostMapping("/user/signup/checkEmail")
-    public @ResponseBody int checkEmail(@RequestBody String email) {
+    @PostMapping("/member/signup/checkEmail")
+    public @ResponseBody
+    int checkEmail(@RequestBody String email) {
         log.info(this.getClass().getName() + ".checkEmail start!");
 
-        int count = memberRepository.countMemberByEmail(email);
+        int count = memberService.countMemberByEmail(email);
+
         log.info(this.getClass().getName() + ".checkEmail end!");
         if (count == 0) {
             return 1;
@@ -76,4 +81,31 @@ public class MemberController {
         return "member/login";
     }
 
+    @GetMapping("/member/login/success")
+    public String loginSuccess(Principal principal, HttpSession httpSession) {
+        httpSession.setAttribute("userId", principal.getName());
+        return "redirect:/";
+    }
+
+    @GetMapping("/user/logout/success")
+    public String logoutSuccess(HttpSession session) {
+        session.invalidate();
+
+        return "redirect:/";
+    }
+
+    //아이디 찾기 form으로 이동
+    @GetMapping("member/findId")
+    public String findId() {
+        return "member/findId";
+    }
+
+    @PostMapping("member/findId")
+    public @ResponseBody String findIdAjax(@RequestBody String email) {
+        String idByEmail = memberService.findIdByEmail(email);
+        if (idByEmail == null) {
+            return "null";
+        }
+        return idByEmail;
+    }
 }

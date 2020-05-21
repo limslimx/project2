@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<form class="form-signin">
+    <div class="text-center mb-4">
+        <img class="mb-4" src="/image/app/book.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">아이디 찾기</h1>
+    </div>
+
+    <div class="form-label-group">
+        <input type="email" id="email" name="email" class="form-control" placeholder="이메일을 입력해주세요." required autofocus>
+        <label for="email">이메일</label>
+    </div>
+    <button type="button" id="btn-findId" class="btn btn-lg btn-primary btn-block">아이디 찾기</button>
+    <a href="/member/login" role="button" class="btn btn-lg btn-secondary btn-block">뒤로</a>
+    <footer th:replace="fragments/footer :: footer" />
+</form>
+<script th:replace="fragments/js :: js" />
+</body>
+</html>

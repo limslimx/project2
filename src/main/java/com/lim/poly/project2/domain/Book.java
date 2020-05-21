@@ -1,12 +1,14 @@
 package com.lim.poly.project2.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Book {
 
@@ -22,6 +24,9 @@ public class Book {
 
     //책 이름
     private String name;
+
+    //책 소제목
+    private String subName;
 
     //책 이미지
     private String img;
@@ -48,6 +53,21 @@ public class Book {
     private String publicationDate;
 
     //책 리뷰들 -> 한 책에 여러 개의 리뷰가 있을텐데 어떤 타입으로 지정해야 할까
-    private String review;
+    //private String review;
 
+    @Builder
+    public Book(String searchDate, String searchBy, String name, String subName, String img, String author, String category, String detailCategory, String rank, String tag, String url, String publicationDate) {
+        this.searchDate = searchDate;
+        this.searchBy = searchBy;
+        this.name = name;
+        this.subName = subName;
+        this.img = img;
+        this.author = author;
+        this.category = category;
+        this.detailCategory = detailCategory;
+        this.rank = rank;
+        this.tag = tag;
+        this.url = url;
+        this.publicationDate = publicationDate;
+    }
 }

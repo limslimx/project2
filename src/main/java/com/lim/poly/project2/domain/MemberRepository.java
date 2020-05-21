@@ -11,7 +11,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     List<Member> findByuId(String uId);
 
-    Optional<Member> findOneByuId(String uId);
+    Member findOneByuId(String uId);
 
     List<Member> findByEmail(String email);
 
@@ -20,4 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select count(m) from Member m where m.email=:email")
     int countMemberByEmail(@Param("email") String email);
+
+    @Query("select m.uId from Member m where m.email=:email")
+    String findIdByEmail(@Param("email") String email);
 }

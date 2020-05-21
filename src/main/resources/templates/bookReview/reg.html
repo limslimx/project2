@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+<form class="form-signin">
+    <div class="text-center mb-4">
+        <img class="mb-4" src="/image/app/book.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">독서록 작성하기</h1>
+    </div>
+    <input type="hidden" id="id" th:value="${id}">
+    <div class="form-group">
+        책 <input type="text" id="name" class="form-control" th:value="${name}" readonly>
+    </div>
+    <div class="form-group">
+        책 저자 <input type="text" id="author" class="form-control" th:value="${author}" readonly>
+    </div>
+    <div class="form-group">
+        책 카테고리 <input type="text" id="category" class="form-control" th:value="${category}" readonly>
+    </div>
+    <div class="form-group">
+        독서록 제목 <input type="text" id="title" class="form-control">
+    </div>
+    <div class="form-group">
+        독서록 내용 <textarea id="content" class="form-control"></textarea>
+    </div>
+
+    <button type="button" class="btn btn-lg btn-primary btn-block" id="btn-reviewSave">작성하기</button>
+
+    <footer th:replace="fragments/footer :: footer" />
+</form>
+<script th:replace="fragments/js :: js" />
+</body>
+</html>
