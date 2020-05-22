@@ -1,0 +1,18 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="card-deck" style="margin: 10em">
+    <div th:each="bookReview : ${bookReviewList}" class="card">
+        <img th:src="${bookReview.img}" class="card-img-top">
+        <div class="card-body">
+            <h5 th:text="${bookReview.title}" class="card-title"></h5>
+            <p th:text="${bookReview.content}" class="card-text"></p>
+            <p class="card-text"><small th:text="${bookReview.chgDate}" class="text-muted"></small></p>
+        </div>
+    </div>
+</div>
+<script th:replace="fragments/js :: js" />
+</body>
+</html>

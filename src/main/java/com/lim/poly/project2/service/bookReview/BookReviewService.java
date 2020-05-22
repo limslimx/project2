@@ -1,12 +1,14 @@
 package com.lim.poly.project2.service.bookReview;
 
 import com.lim.poly.project2.domain.*;
+import com.lim.poly.project2.web.dto.BookReviewListDto;
 import com.lim.poly.project2.web.dto.BookReviewSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -34,5 +36,9 @@ public class BookReviewService {
 
         log.info(this.getClass().getName() + ".save end!");
         return bookReview.getId();
+    }
+
+    public List<BookReviewListDto> getBookReviewList(String userId) {
+        return bookReviewRepository.findBookReviewListDtoByUserId(userId);
     }
 }

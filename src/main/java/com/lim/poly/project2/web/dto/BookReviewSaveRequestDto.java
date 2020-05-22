@@ -7,9 +7,6 @@ import lombok.Setter;
 public class BookReviewSaveRequestDto {
 
     private Long id;
-    private String name;
-    private String author;
-    private String category;
     private String title;
     private String content;
 }

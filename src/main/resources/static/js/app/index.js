@@ -251,9 +251,6 @@ var bookReview = {
             var header = $("meta[name='_csrf_header']").attr("content");
             var data = {
                 id: $("#id").val(),
-                name: $("#name").val(),
-                author: $("#author").val(),
-                category: $("#category").val(),
                 title: $("#title").val(),
                 content: $("#content").val()
             };
